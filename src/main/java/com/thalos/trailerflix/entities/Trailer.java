@@ -1,12 +1,13 @@
 package com.thalos.trailerflix.entities;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,15 @@ public class Trailer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	//relacionamento
-	private int movieId;
-	
-	//relacionamento
-	private UUID userId;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movieId;
+
+	@ManyToOne
+	@JoinColumn(name = "collaboration_id")
+	private Movie collaborationId;
+
 	private String url;
 	private Date releaseDate;
 	private Date uploadDate;
