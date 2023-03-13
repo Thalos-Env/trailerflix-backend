@@ -1,6 +1,6 @@
 <h2>Trailerflix</h2>
 <p>
-Tem como proposta a visualização de trailers de filmes.
+Um serviço de streaming voltado para trailers de diversos filmes. 
 </p>
 
 <hr>
