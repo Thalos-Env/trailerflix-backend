@@ -22,13 +22,10 @@ public class Trailer {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "movie_id")
-	private Movie movieId;
+	@JoinColumn(name = "collaborator_id")
+	private User collaboratorId;
 
-	@ManyToOne
-	@JoinColumn(name = "collaboration_id")
-	private Movie collaborationId;
-
+	private String movieId;
 	private String url;
 	private Date releaseDate;
 	private Date uploadDate;
