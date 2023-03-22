@@ -21,11 +21,11 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@OneToMany(mappedBy = "collaboratorId")
+	private List<Trailer> trailersId;
+	
 	private String profile;
 	private String name;
 	private String email;
 	private Date registrationDate;
-	
-	@OneToMany(mappedBy = "collaborationId")
-	private List<Trailer> trailersId;
 }
