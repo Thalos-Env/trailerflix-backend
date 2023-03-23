@@ -23,8 +23,8 @@ public class Trailer {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "collaborator_id")
-	private User collaboratorId;
+	@JoinColumn(name = "user_id")
+	private User userId;
 
 	@ManyToOne
 	@JoinColumn(name = "movie_id")
