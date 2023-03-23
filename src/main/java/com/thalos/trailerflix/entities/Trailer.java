@@ -1,6 +1,7 @@
 package com.thalos.trailerflix.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,15 +20,18 @@ public class Trailer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "collaborator_id")
-	private User collaboratorId;
+	@JoinColumn(name = "user_id")
+	private User userId;
 
-	private String movieId;
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movieId;
+
 	private String url;
-	private Date releaseDate;
-	private Date uploadDate;
-	private Date editDate;
+	private LocalDate releaseDate;
+	private LocalDate uploadDate;
+	private LocalDate editDate;
 }
