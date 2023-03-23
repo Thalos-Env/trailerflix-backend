@@ -1,9 +1,12 @@
 package com.thalos.trailerflix.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,13 +22,13 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private UUID id;
 	
-	@OneToMany(mappedBy = "collaboratorId")
-	private List<Trailer> trailersId;
+	@OneToMany(mappedBy = "collaboratorId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Trailer> trailerId;
 	
 	private String profile;
 	private String name;
 	private String email;
-	private Date registrationDate;
+	private LocalDate registrationDate;
 }
