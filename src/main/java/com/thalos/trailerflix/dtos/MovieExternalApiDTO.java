@@ -20,4 +20,6 @@ public class MovieExternalApiDTO {
 	private String poster_path;
 	private String release_date;
 	private String title;
+	private Double vote_average;
+	private int vote_count;
 }
