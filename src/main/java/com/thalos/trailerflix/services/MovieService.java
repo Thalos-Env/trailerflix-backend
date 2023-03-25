@@ -31,8 +31,9 @@ public class MovieService {
 		MovieExternalApiDTO movieFound = monoMovie.block();
 		
 		//TODO: mudar para exception personalizada
-		if(monoMovie.hasElement().block() == false)
-			System.out.println("id not found");
+		if(monoMovie.hasElement().block() == false) {
+			new Exception("id not found");
+		}
 
 		return movieFound;
 	}

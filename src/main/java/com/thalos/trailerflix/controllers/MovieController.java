@@ -23,10 +23,6 @@ public class MovieController {
 	public ResponseEntity<MovieExternalApiDTO> teste(@PathVariable Integer id) {
 		MovieExternalApiDTO result = movieService.searchMoviesFromExternalApi(id);
 
-		//TODO: excluir quando tiver exception personalizada
-		if (result == null)
-			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }
