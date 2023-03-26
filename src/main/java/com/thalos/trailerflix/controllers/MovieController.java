@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/movies")
 @RequiredArgsConstructor
 public class MovieController {
-
 	private final MovieService movieService;
 
 	@GetMapping("/{id}")
