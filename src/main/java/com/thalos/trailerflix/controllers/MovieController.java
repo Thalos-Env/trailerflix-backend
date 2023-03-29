@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thalos.trailerflix.dtos.MovieExternalApiDTO;
+import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
 import com.thalos.trailerflix.services.MovieService;
 
 import lombok.RequiredArgsConstructor;

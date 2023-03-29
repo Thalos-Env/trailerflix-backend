@@ -4,7 +4,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.thalos.trailerflix.dtos.MovieExternalApiDTO;
+import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
 import com.thalos.trailerflix.repositories.MovieRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,9 @@
-package com.thalos.trailerflix.exceptions.exception;
+package com.thalos.trailerflix.exceptions;
 
 public class InternalServerException extends RuntimeException {
-    public InternalServerException(String message, Throwable cause) {
+	private static final long serialVersionUID = 1L;
+
+	public InternalServerException(String message, Throwable cause) {
         super(message, cause);
     }
 

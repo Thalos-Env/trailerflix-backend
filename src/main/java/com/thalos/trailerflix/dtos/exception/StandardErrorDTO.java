@@ -1,4 +1,4 @@
-package com.thalos.trailerflix.exceptions;
+package com.thalos.trailerflix.dtos.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StandardError implements Serializable {
+public class StandardErrorDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -1,9 +1,9 @@
-package com.thalos.trailerflix.exceptions.exception;
+package com.thalos.trailerflix.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
-//    private static final long serialVersionUid = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public ObjectNotFoundException(String message, Throwable cause) {
+	public ObjectNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 

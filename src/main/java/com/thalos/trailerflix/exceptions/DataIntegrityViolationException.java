@@ -1,9 +1,9 @@
-package com.thalos.trailerflix.exceptions.exception;
+package com.thalos.trailerflix.exceptions;
 
 public class DataIntegrityViolationException extends RuntimeException {
-//    private static final long serialVersionUid = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public DataIntegrityViolationException(String message, Throwable cause) {
+	public DataIntegrityViolationException(String message, Throwable cause) {
         super(message, cause);
     }
 

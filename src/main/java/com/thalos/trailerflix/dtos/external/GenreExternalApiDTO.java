@@ -1,4 +1,4 @@
-package com.thalos.trailerflix.dtos;
+package com.thalos.trailerflix.dtos.external;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
