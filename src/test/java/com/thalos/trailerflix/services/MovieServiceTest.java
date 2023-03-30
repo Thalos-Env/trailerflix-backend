@@ -9,32 +9,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
+
 @SpringBootTest
 public class MovieServiceTest {
 
 	@Autowired
-	MovieService movieService;
-	
-	Integer id;
-	
+	private MovieService movieService;
+
+	private int id;
+
 	@BeforeEach
 	public void setup() {
-		
+
 	}
-	
-	/*
-	TODO: esboço para alterar com exceptions personalizadas
+
 	@Test
-	@DisplayName("Deve ")
-	public void teste() {
+	@DisplayName("Should show ObjectNotFoundException for non-existent id")
+	public void showObjectNotFoundException() {
 		id = 1000000000;
-		
-		Exception exception = assertThrows(Exception.class, () -> {
-			movieService.searchMoviesFromExternalApi(id);
+
+		ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
+			movieService.searchMovieFromExternalApi(id);
 		});
-		
-		assertEquals("id not found", exception.getMessage());
+
+		assertEquals("Movie not found.", exception.getMessage());
 	}
-	
-	*/
 }

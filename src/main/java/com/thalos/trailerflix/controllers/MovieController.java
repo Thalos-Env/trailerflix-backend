@@ -19,8 +19,8 @@ public class MovieController {
 	private final MovieService movieService;
 
 	@GetMapping("/{id}")
-	public ResponseEntity<MovieExternalApiDTO> teste(@PathVariable Integer id) {
-		MovieExternalApiDTO result = movieService.searchMoviesFromExternalApi(id);
+	public ResponseEntity<MovieExternalApiDTO> searchMovieFromExternalApi(@PathVariable Integer id) {
+		MovieExternalApiDTO result = movieService.searchMovieFromExternalApi(id);
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

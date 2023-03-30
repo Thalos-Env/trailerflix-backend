@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
+import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class MovieService {
 	private final MovieRepository movieRepository;
 	private final WebClient webClient;
 
-	public MovieExternalApiDTO searchMoviesFromExternalApi(Integer id) {
+	public MovieExternalApiDTO searchMovieFromExternalApi(Integer id) {
 		Mono<MovieExternalApiDTO> monoMovie = 
 				this.webClient
 					.method(HttpMethod.GET)
@@ -30,9 +31,8 @@ public class MovieService {
 		
 		MovieExternalApiDTO movieFound = monoMovie.block();
 		
-		//TODO: mudar para exception personalizada
 		if(monoMovie.hasElement().block() == false) {
-			new Exception("id not found");
+			throw new ObjectNotFoundException("Movie not found.");
 		}
 
 		return movieFound;
