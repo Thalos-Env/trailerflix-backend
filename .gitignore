@@ -34,3 +34,4 @@ build/
 
 ## Key rsa
 !**/src/main/resources/certs
+!**/src/main/**/certs
