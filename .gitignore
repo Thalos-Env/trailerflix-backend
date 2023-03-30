@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ## Key rsa
-!**/src/main/resources/certs
-!**/src/main/**/certs
+/src/main/resources/certs/
+/src/main/**/certs/
