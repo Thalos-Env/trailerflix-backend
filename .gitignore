@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ## Key rsa
-*.pem
+src/main/resources/certs/*
+certs/
