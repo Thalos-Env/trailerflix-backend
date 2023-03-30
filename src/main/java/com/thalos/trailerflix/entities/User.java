@@ -18,12 +18,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@Builder
 @Entity(name = "tb_user")
 public class User implements UserDetails, Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;	
+	private UUID id;
 	
 	private String trailersId;
 	private String profile;
