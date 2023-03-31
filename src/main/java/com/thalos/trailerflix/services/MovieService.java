@@ -1,10 +1,13 @@
 package com.thalos.trailerflix.services;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
+import com.thalos.trailerflix.entities.Movie;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.MovieRepository;
 
@@ -31,10 +34,21 @@ public class MovieService {
 		
 		MovieExternalApiDTO movieFound = monoMovie.block();
 		
-		if(monoMovie.hasElement().block() == false) {
+		if(monoMovie.hasElement().block() == false) 
 			throw new ObjectNotFoundException("Movie not found.");
-		}
 
 		return movieFound;
+	}
+
+	@Transactional
+	public Movie createMovie(int movieId) {
+		this.searchMovieFromExternalApi(movieId);
+		
+		Movie newMovie = new Movie();
+		newMovie.setId(movieId);
+		
+		movieRepository.save(newMovie);
+		
+		return newMovie;
 	}
 }

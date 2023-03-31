@@ -6,8 +6,8 @@ import com.thalos.trailerflix.entities.User;
 
 public class TrailerMapper {
 
-	public static Trailer fromDTO(TrailerRegisterDTO dto, User user, Movie movie) {		
-		return new Trailer(null, user, movie, dto.getUrl(), dto.getReleaseDate(), dto.getUploadDate(), dto.getEditDate());
+	public static Trailer fromDTO(TrailerRegisterDTO dto, User user, Movie movie) {				
+		return new Trailer(null, user, movie, dto.getUrl(), dto.getReleaseDate(), dto.getUploadDate());
 	}
 	
 	public static TrailerConsultDTO fromEntity(Trailer trailer) {

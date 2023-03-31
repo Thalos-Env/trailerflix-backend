@@ -15,7 +15,15 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity(name = "tb_user")
 public class User {
-
+	
+	public User(UUID id, String profile, String name, String email, LocalDate registrationDate) {
+		this.id = id;
+		this.profile = profile;
+		this.name = name;
+		this.email = email;
+		this.registrationDate = registrationDate;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;	
