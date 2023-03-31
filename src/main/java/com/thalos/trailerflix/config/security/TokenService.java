@@ -1,6 +1,5 @@
 package com.thalos.trailerflix.config.security;
 
-import com.thalos.trailerflix.dtos.UserDTO;
 import com.thalos.trailerflix.entities.User;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.UserRepository;
@@ -21,9 +20,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-    private JwtEncoder jwtEncoder;
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final JwtEncoder jwtEncoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     public TokenResponse generateToken(String email, String senha) {
         Instant instantNow = Instant.now();
         User user = userRepository.findByEmail(email);
@@ -38,8 +37,8 @@ public class TokenService {
                 .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
-                .issuedAt(instantNow.atZone(ZoneId.systemDefault()).toInstant())
-                .expiresAt(instantNow.atZone(ZoneId.systemDefault()).toInstant().plus(24, ChronoUnit.HOURS))
+                .issuedAt(instantNow.atZone(ZoneId.of("America/Sao_Paulo")).toInstant())
+                .expiresAt(instantNow.atZone(ZoneId.of("America/Sao_Paulo")).toInstant().plus(24, ChronoUnit.HOURS))
                 .subject(user.getEmail())
                 .claim("scope", scope)
                 .build();
@@ -51,7 +50,7 @@ public class TokenService {
         String[] splitExpirationDate = String.valueOf(expirationDate).split("T");
         String messageExpirationDate = splitExpirationDate[0] + " " + Arrays.toString(splitExpirationDate[1].split("\\."));
 
-        UserDTO userDTO = new UserDTO(user);
+//        UserDTO userDTO = new UserDTO(user);
         return new TokenResponse(user.getId(), token, timeToken, messageExpirationDate);
     }
 }

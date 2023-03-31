@@ -27,9 +27,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+//@RequiredArgsConstructor
 public class SecurityConfig {
     @Autowired
-    RsaKeyProperties rsaKeyProperties;
+    private RsaKeyProperties rsaKeyProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,8 +39,8 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .antMatchers("/api/users/login", "api/users/cadastro").permitAll()
-                        .antMatchers("/api/users/all").hasAuthority("ADMIN")
+                        .antMatchers("/api/users/login", "/api/users/cadastro").permitAll()
+                        .antMatchers("/api/users/all").hasAuthority("admin")
 
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
