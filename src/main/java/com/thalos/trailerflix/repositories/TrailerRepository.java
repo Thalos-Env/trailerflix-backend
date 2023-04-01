@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.thalos.trailerflix.entities.Trailer;
 
+import java.util.UUID;
+
 @Repository
 public interface TrailerRepository extends JpaRepository<Trailer, UUID> {
 
