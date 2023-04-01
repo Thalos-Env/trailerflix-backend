@@ -12,10 +12,12 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @RequiredArgsConstructor
 @Data
 @Entity(name = "tb_trailer")
+@ToString(exclude = {"userId", "movieId"})
 public class Trailer {
 
 	public Trailer(UUID id, User userId, Movie movieId, String url, LocalDate releaseDate, LocalDate uploadDate, LocalDate editDate) {
