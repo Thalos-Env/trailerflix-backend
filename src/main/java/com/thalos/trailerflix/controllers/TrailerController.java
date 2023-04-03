@@ -11,7 +11,5 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/trailers")
 @RequiredArgsConstructor
 public class TrailerController {
-	
 	private final TrailerService trailerService;
-
 }

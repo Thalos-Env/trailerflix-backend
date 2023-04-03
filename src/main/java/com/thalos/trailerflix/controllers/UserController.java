@@ -40,4 +40,10 @@ public class UserController {
         UserDTO userDTO = userService.createUser(userInsertDTO);
         return ResponseEntity.ok().body(userDTO);
     }
+
+    @PostMapping("/reset")
+    public ResponseEntity<?> reset(@RequestBody String email) {
+        userService.sendSimpleMessage(email);
+        return ResponseEntity.ok().body("Email enviado neste endereço de email.");
+    }
 }
