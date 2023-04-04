@@ -1,20 +1,23 @@
 package com.thalos.trailerflix.services;
 
-import com.thalos.trailerflix.dtos.UserDTO;
-import com.thalos.trailerflix.dtos.UserInsertDTO;
-import com.thalos.trailerflix.entities.User;
-import com.thalos.trailerflix.exceptions.InternalServerException;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.thalos.trailerflix.dtos.UserDTO;
+import com.thalos.trailerflix.dtos.UserInsertDTO;
+import com.thalos.trailerflix.entities.User;
+import com.thalos.trailerflix.exceptions.InternalServerException;
+import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
-import javax.transaction.Transactional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -27,6 +30,12 @@ public class UserService {
         Page<User> userPage = userRepository.findAll(pageable);
 
         return userPage.map(UserDTO::new);
+    }
+    
+    public User findById(UUID userId) {
+    	Optional<User> userFound = userRepository.findById(userId);
+
+    	return userFound.orElseThrow(() -> new ObjectNotFoundException("User não encontrado."));
     }
 
     public UserDTO createUser(UserInsertDTO userInsertDTO) {
