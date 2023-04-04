@@ -37,13 +37,10 @@ public class TrailerController {
 		List<Trailer> trailers = trailerService.findAllTrailers();
 		List<TrailerConsultDTO> result = new ArrayList<>();
 		
-		System.out.println(trailers);
-		System.out.println(result);
-		
 		for(int i = 0; i < trailers.size(); i++) {
 			result.add(TrailerMapper.fromEntity(trailers.get(i)));
 		}
 		
-		return ResponseEntity.ok(result);
+		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 }

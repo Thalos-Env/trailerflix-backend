@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 public class TrailerRegisterDTO {
 	
 	private UUID id;
-	private User userId;
-	private Movie movieId;
+	private User user;
+	private Movie movie;
 	private String url;
 	private LocalDate releaseDate;
 	private LocalDate uploadDate;

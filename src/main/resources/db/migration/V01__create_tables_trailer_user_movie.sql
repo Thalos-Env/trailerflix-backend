@@ -14,23 +14,23 @@ CREATE TABLE tb_movie (
 
 CREATE TABLE tb_trailer (
 	id VARCHAR(36) PRIMARY KEY NOT NULL,
-	user_id CHAR(36) NOT NULL,
-	movie_id BIGINT NOT NULL,
+	user CHAR(36) NOT NULL,
+	movie BIGINT NOT NULL,
 	url VARCHAR(100) NOT NULL,	
 	release_date VARCHAR(20) NOT NULL,
 	upload_date VARCHAR(20) NOT NULL,
 	edit_date VARCHAR(20) NOT NULL,
 	
-	FOREIGN KEY (user_id) REFERENCES tb_user(id),
-    FOREIGN KEY (movie_id) REFERENCES tb_movie(id)
+	FOREIGN KEY (user) REFERENCES tb_user(id),
+    FOREIGN KEY (movie) REFERENCES tb_movie(id)
 );
 
 CREATE TRIGGER insertTrailerIdFromTablesMovieAndUser AFTER INSERT ON tb_trailer
 FOR EACH ROW
 BEGIN
     UPDATE tb_movie SET trailers_id = IF(trailers_id IS NULL OR trailers_id = '', NEW.id, CONCAT(trailers_id, '#', NEW.id))
-    WHERE id = NEW.movie_id;
+    WHERE id = NEW.movie;
     
     UPDATE tb_user SET trailers_id = IF(trailers_id IS NULL OR trailers_id = '', NEW.id, CONCAT(trailers_id, '#', NEW.id))
-    WHERE id = NEW.user_id;
+    WHERE id = NEW.user;
 END

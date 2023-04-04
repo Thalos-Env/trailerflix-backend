@@ -21,7 +21,7 @@ public class TrailerService {
 	public Trailer findTrailerById(UUID id) {
 		Optional<Trailer> trailerFound = trailerRepository.findOneById(id);
 		
-		return trailerFound.orElseThrow(() -> new ObjectNotFoundException("Trailer not found."));
+		return trailerFound.orElseThrow(() -> new ObjectNotFoundException("Trailer não encontrado."));
 	}
 
 	public List<Trailer> findAllTrailers() {
