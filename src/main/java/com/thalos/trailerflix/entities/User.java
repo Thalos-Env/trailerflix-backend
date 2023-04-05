@@ -30,6 +30,7 @@ public class User implements UserDetails, Serializable {
     @Email
     private String email;
     private String password;
+    private String resetPasswordToken;
     private LocalDate registrationDate;
 
     @PrePersist

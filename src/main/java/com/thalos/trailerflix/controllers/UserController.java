@@ -2,6 +2,7 @@ package com.thalos.trailerflix.controllers;
 
 import com.thalos.trailerflix.config.security.TokenResponse;
 import com.thalos.trailerflix.config.security.TokenService;
+import com.thalos.trailerflix.dtos.ResetPasswordDTO;
 import com.thalos.trailerflix.dtos.UserDTO;
 import com.thalos.trailerflix.dtos.UserInsertDTO;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import com.thalos.trailerflix.services.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -39,5 +41,17 @@ public class UserController {
     public ResponseEntity<UserDTO> signUp(@Valid @RequestBody UserInsertDTO userInsertDTO) {
         UserDTO userDTO = userService.createUser(userInsertDTO);
         return ResponseEntity.ok().body(userDTO);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        userService.resetPassword(resetPasswordDTO);
+        return ResponseEntity.ok().body("Senha alterada com sucesso.");
+    }
+
+    @PostMapping("/email/reset-password")
+    public ResponseEntity<?> reset(@RequestBody String email) throws MessagingException {
+        userService.sendEmailResetPassword(email);
+        return ResponseEntity.ok().body("Email enviado neste endereço de email.");
     }
 }
