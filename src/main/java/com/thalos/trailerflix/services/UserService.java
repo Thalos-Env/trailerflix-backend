@@ -1,11 +1,13 @@
 package com.thalos.trailerflix.services;
 
+import com.thalos.trailerflix.dtos.ResetPasswordDTO;
 import com.thalos.trailerflix.dtos.UserDTO;
 import com.thalos.trailerflix.dtos.UserInsertDTO;
 import com.thalos.trailerflix.entities.User;
 import com.thalos.trailerflix.exceptions.InternalServerException;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -52,6 +54,19 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
+        User user = userRepository.findByResetPasswordToken(resetPasswordDTO.getResetPasswordToken());
+        if (user == null) throw new ObjectNotFoundException("Usuário não encontrado");
+
+        user.setResetPasswordToken(null);
+        user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
+
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("Não foi possível salvar este usuário");
+        }
+    }
     public void sendEmailResetPassword(String to) throws MessagingException {
         User user = userRepository.findByEmail(to);
 
