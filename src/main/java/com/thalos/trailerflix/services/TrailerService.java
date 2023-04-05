@@ -1,6 +1,5 @@
 package com.thalos.trailerflix.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,8 +23,4 @@ public class TrailerService {
 		return trailerFound.orElseThrow(() -> new ObjectNotFoundException("Trailer não encontrado."));
 	}
 
-	public List<Trailer> findAllTrailers() {
-	
-		return trailerRepository.findAll();
-	}
 }
