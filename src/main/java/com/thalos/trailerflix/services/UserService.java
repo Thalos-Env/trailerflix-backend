@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     @Value("${spring.mail.password}")
     private String passwordEmail;
+
     public Page<UserDTO> findAll(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
 
@@ -40,12 +42,12 @@ public class UserService {
     }
 
     public User findById(UUID userId) {
-    	Optional<User> userFound = userRepository.findById(userId);
+        Optional<User> userFound = userRepository.findById(userId);
 
-    	return userFound.orElseThrow(() -> new ObjectNotFoundException("User não encontrado."));
+        return userFound.orElseThrow(() -> new ObjectNotFoundException("User não encontrado."));
     }
 
-    public UserDTO createUser(UserInsertDTO userInsertDTO) {
+    public UserDTO createUser(UserInsertDTO userInsertDTO) throws MessagingException {
         User userEmail = userRepository.findByEmail(userInsertDTO.getEmail());
         if (userEmail != null) throw new InternalServerException("Este email já está cadastrado");
 
@@ -55,11 +57,59 @@ public class UserService {
         user.setName(userInsertDTO.getName());
         user.setProfile(userInsertDTO.getProfile());
         user.setPassword(passwordEncoder.encode(userInsertDTO.getPassword()));
-
+        user.setEnable(false);
         user = userRepository.save(user);
+
+        JavaMailSenderImpl mailSender = this.getJavaMailSender();
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setSubject("Link da sua senha.");
+        helper.setFrom("murilo.bot100@gmail.com");
+        helper.setTo(userInsertDTO.getEmail());
+
+        boolean html = true;
+        helper.setText("<p>Olá,</p>"
+                        + "<p>Você cadastrou em nosso site.</p>"
+                        + "<br>"
+                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"/confirm-account/" + user.getId() + "\">Confirmar e-mail</a></p>"
+                        + "<br>"
+                        + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
+                , html);
+
+        mailSender.send(message);
         return new UserDTO(user);
     }
 
+    public void confirmEmail(String userId) {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new ObjectNotFoundException("usuário não encontrado"));
+        user.setEnable(true);
+        userRepository.save(user);
+    }
+
+    public void resendConfirmEmail(String email) throws MessagingException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) throw new ObjectNotFoundException("Usuário não encontrado");
+
+        JavaMailSenderImpl mailSender = this.getJavaMailSender();
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setSubject("Link da sua senha.");
+        helper.setFrom("murilo.bot100@gmail.com");
+        helper.setTo(email);
+
+        boolean html = true;
+        helper.setText("<p>Olá,</p>"
+                        + "<p>Você cadastrou em nosso site.</p>"
+                        + "<br>"
+                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"/confirm-account/" + user.getId() + "\">Confirmar e-mail</a></p>"
+                        + "<br>"
+                        + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
+                , html);
+
+        mailSender.send(message);
+    }
     public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
         User user = userRepository.findByResetPasswordToken(resetPasswordDTO.getResetPasswordToken());
         if (user == null) throw new ObjectNotFoundException("Usuário não encontrado");
@@ -73,6 +123,7 @@ public class UserService {
             throw new DataIntegrityViolationException("Não foi possível salvar este usuário");
         }
     }
+
     public void sendEmailResetPassword(String to) throws MessagingException {
         User user = userRepository.findByEmail(to);
 

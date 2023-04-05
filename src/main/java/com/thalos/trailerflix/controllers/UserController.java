@@ -38,9 +38,21 @@ public class UserController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<UserDTO> signUp(@Valid @RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> signUp(@Valid @RequestBody UserInsertDTO userInsertDTO) throws MessagingException {
         UserDTO userDTO = userService.createUser(userInsertDTO);
         return ResponseEntity.ok().body(userDTO);
+    }
+
+    @PostMapping("/confirm-email/{email}")
+    public ResponseEntity<?> confirmEmail(@RequestParam("userId") String email) {
+        userService.confirmEmail(email);
+        return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
+    }
+
+    @PostMapping("/resend/confirm-email/{email}")
+    public ResponseEntity<?> resendConfirmEmail(@RequestParam("email") String email) throws MessagingException {
+        userService.resendConfirmEmail(email);
+        return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
     }
 
     @PostMapping("/reset-password")

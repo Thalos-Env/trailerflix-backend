@@ -39,7 +39,9 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .antMatchers("/api/users/login", "/api/users/cadastro", "/api/users/reset")
+                        .antMatchers("/api/users/login", "/api/users/cadastro", "/api/users/reset",
+                                "/confirm-email/{email}", "/resend/confirm-email/{email}", "/reset-password",
+                                "/email/reset-password")
                         .permitAll()
                         .antMatchers("/api/users/all").hasAuthority("admin")
 
