@@ -59,7 +59,6 @@ public class UserService {
         user.setResetPasswordToken(String.valueOf(UUID.randomUUID()));
 
         JavaMailSenderImpl mailSender = this.getJavaMailSender();
-//        String to = "recipient@gmail.com";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
