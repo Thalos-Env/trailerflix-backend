@@ -5,10 +5,11 @@ import com.thalos.trailerflix.dtos.UserInsertDTO;
 import com.thalos.trailerflix.entities.User;
 import com.thalos.trailerflix.exceptions.InternalServerException;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,10 @@ import com.thalos.trailerflix.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.mail.*;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import java.util.Properties;
 import java.util.UUID;
 
 @Service
@@ -25,7 +29,8 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final JavaMailSender javaMailSender;
+    @Value("${spring.mail.password}")
+    private String passwordEmail;
     public Page<UserDTO> findAll(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
 
@@ -47,26 +52,51 @@ public class UserService {
         return new UserDTO(user);
     }
 
-    public void sendSimpleMessage(String to) {
-        SimpleMailMessage message = new SimpleMailMessage();
+    public void sendEmailResetPassword(String to) throws MessagingException {
         User user = userRepository.findByEmail(to);
+
         if (user == null) throw new ObjectNotFoundException("Este usuário não existe.");
+        user.setResetPasswordToken(String.valueOf(UUID.randomUUID()));
 
-        String subject = "Here's the link to reset your password";
-        String content = "<p>Hello,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=/reset-password/" + user.getResetPasswordToken() + "\">Change my password</a></p>"
-                + "<br>"
-                + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>";
+        JavaMailSenderImpl mailSender = this.getJavaMailSender();
+//        String to = "recipient@gmail.com";
 
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        message.setFrom("murilo.bot100@gmail.com");
-        message.setTo(to);
-        message.setText(content);
-        message.setSubject(subject);
+        helper.setSubject("Link da sua senha.");
+        helper.setFrom("murilo.bot100@gmail.com");
+        helper.setTo(to);
 
-        javaMailSender.send(message);
+        boolean html = true;
+        helper.setText("<p>Olá,</p>"
+                        + "<p>Você solicitou acesso a sua senha.</p>"
+                        + "<br>"
+                        + "<p>Clique no link para alterar sua senha: <a href=\"/reset-password/" + user.getResetPasswordToken() + "\">Trocar minha senha</a></p>"
+                        + "<br>"
+                        + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
+                , html);
+
+        mailSender.send(message);
+    }
+
+    public JavaMailSenderImpl getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("murilo.bot100@gmail.com");
+        mailSender.setPassword(passwordEmail);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+//        props.setProperty("mail.debug", "true");
+        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mailSender.setJavaMailProperties(props);
+
+        return mailSender;
     }
 }

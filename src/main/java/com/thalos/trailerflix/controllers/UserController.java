@@ -13,6 +13,7 @@ import com.thalos.trailerflix.services.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -42,8 +43,8 @@ public class UserController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<?> reset(@RequestBody String email) {
-        userService.sendSimpleMessage(email);
+    public ResponseEntity<?> reset(@RequestBody String email) throws MessagingException {
+        userService.sendEmailResetPassword(email);
         return ResponseEntity.ok().body("Email enviado neste endereço de email.");
     }
 }
