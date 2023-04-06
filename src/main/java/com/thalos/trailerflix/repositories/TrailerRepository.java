@@ -1,5 +1,8 @@
 package com.thalos.trailerflix.repositories;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface TrailerRepository extends JpaRepository<Trailer, UUID> {
 
+	Optional<Trailer> findOneById(UUID id);
 }

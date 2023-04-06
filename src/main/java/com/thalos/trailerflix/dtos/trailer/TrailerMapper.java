@@ -11,6 +11,6 @@ public class TrailerMapper {
 	}
 	
 	public static TrailerConsultDTO fromEntity(Trailer trailer) {
-		return new TrailerConsultDTO(trailer.getId(), trailer.getUserId(), trailer.getMovieId(), trailer.getUrl(), trailer.getReleaseDate(), trailer.getUploadDate());
+		return new TrailerConsultDTO(trailer.getId(), trailer.getUser(), trailer.getMovie().getId(), trailer.getUrl(), trailer.getReleaseDate(), trailer.getUploadDate());
 	}
 }

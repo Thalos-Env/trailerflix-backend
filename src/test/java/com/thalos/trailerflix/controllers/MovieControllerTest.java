@@ -37,19 +37,4 @@ public class MovieControllerTest {
 		objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 	}
-
-	/* NÃO NECESSARIO
-	@Test
-	@DisplayName("Buscar avaliacao por Id deve retornar ConsultaAvaliacaoDTO e Status HTTP 200")
-	public void buscarAvaliacaoPorIdDeveRetornarConsultaAvaliacaoDTO_Status200() throws Exception {
-		when(movieServiceMock.searchMovieFromExternalApi(id)).thenReturn(movieExternalApiBuilder);
-		
-		String result = objectMapper.writeValueAsString(movieExternalApiBuilder);
-		
-		mockMvc.perform(get(REQUEST_MAPPING+ "/" + id)
-				  .contentType(MediaType.APPLICATION_JSON))
-				  .andExpect(status().isOk())
-				  .andExpect(content().json(result));
-	}*/
-
 }
