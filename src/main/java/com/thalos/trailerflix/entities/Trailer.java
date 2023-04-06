@@ -30,18 +30,18 @@ public class Trailer {
 	
 	@Id
 	@Type(type = "org.hibernate.type.UUIDCharType")
-	private UUID id;
+	protected UUID id;
 
 	@ManyToOne
 	@JoinColumn(name = "user")
-	private User user;
+	protected User user;
 
 	@ManyToOne
 	@JoinColumn(name = "movie")
-	private Movie movie;
+	protected Movie movie;
 
-	private String url;
-	private LocalDate releaseDate;
-	private LocalDate uploadDate;
-	private LocalDate editDate;
+	protected String url;
+	protected LocalDate releaseDate;
+	protected LocalDate uploadDate;
+	protected LocalDate editDate;
 }

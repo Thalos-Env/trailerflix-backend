@@ -21,10 +21,10 @@ public class TrailerConsultDTO {
 		this.uploadDate = uploadDate;
 	}
 
-	private UUID id;
-	private User user;
-	private Long movie;
-	private String url;
-	private LocalDate releaseDate;
-	private LocalDate uploadDate;
+	protected UUID id;
+	protected User user;
+	protected Long movie;
+	protected String url;
+	protected LocalDate releaseDate;
+	protected LocalDate uploadDate;
 }
