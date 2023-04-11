@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/confirm-email/{email}")
-    public ResponseEntity<?> confirmEmail(@RequestParam("userId") String email) {
+    public ResponseEntity<?> confirmEmail(@RequestParam("email") String email) {
         userService.confirmEmail(email);
         return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
     }

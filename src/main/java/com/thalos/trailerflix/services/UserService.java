@@ -81,8 +81,8 @@ public class UserService {
         return new UserDTO(user);
     }
 
-    public void confirmEmail(String userId) {
-        User user = userRepository.findById(UUID.fromString(userId))
+    public void confirmEmail(String checkerCode) {
+        User user = userRepository.findByCheckerCode(checkerCode)
                 .orElseThrow(() -> new ObjectNotFoundException("usuário não encontrado"));
         user.setEnable(true);
         userRepository.save(user);
@@ -95,7 +95,7 @@ public class UserService {
         JavaMailSenderImpl mailSender = this.getJavaMailSender();
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setSubject("Link da sua senha.");
+        helper.setSubject("Comfirmação de e-mail.");
         helper.setFrom("murilo.bot100@gmail.com");
         helper.setTo(email);
 
@@ -103,7 +103,7 @@ public class UserService {
         helper.setText("<p>Olá,</p>"
                         + "<p>Você cadastrou em nosso site.</p>"
                         + "<br>"
-                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"/confirm-account/" + user.getId() + "\">Confirmar e-mail</a></p>"
+                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"http://localhost:3000/confirm-account/" + user.getCheckerCode() + "\">Confirmar e-mail</a></p>"
                         + "<br>"
                         + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
                 , html);
@@ -111,10 +111,10 @@ public class UserService {
         mailSender.send(message);
     }
     public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
-        User user = userRepository.findByResetPasswordToken(resetPasswordDTO.getResetPasswordToken());
-        if (user == null) throw new ObjectNotFoundException("Usuário não encontrado");
+        User user = userRepository.findByCheckerCode(resetPasswordDTO.getResetPasswordToken())
+                      .orElseThrow(() -> new ObjectNotFoundException("usuário não encontrado"));
 
-        user.setResetPasswordToken(null);
+        user.setCheckerCode(null);
         user.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
 
         try {
@@ -128,7 +128,7 @@ public class UserService {
         User user = userRepository.findByEmail(to);
 
         if (user == null) throw new ObjectNotFoundException("Este usuário não existe.");
-        user.setResetPasswordToken(String.valueOf(UUID.randomUUID()));
+        user.setCheckerCode(String.valueOf(UUID.randomUUID()));
 
         JavaMailSenderImpl mailSender = this.getJavaMailSender();
 
@@ -143,7 +143,7 @@ public class UserService {
         helper.setText("<p>Olá,</p>"
                         + "<p>Você solicitou acesso a sua senha.</p>"
                         + "<br>"
-                        + "<p>Clique no link para alterar sua senha: <a href=\"/reset-password/" + user.getResetPasswordToken() + "\">Trocar minha senha</a></p>"
+                        + "<p>Clique no link para alterar sua senha: <a href=\"http://localhost:3000/reset-password/" + user.getCheckerCode() + "\">Trocar senha</a></p>"
                         + "<br>"
                         + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
                 , html);
@@ -164,7 +164,7 @@ public class UserService {
         props.setProperty("mail.smtp.auth", "true");
         props.setProperty("mail.smtp.starttls.enable", "true");
 //        props.setProperty("mail.debug", "true");
-        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+//        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         props.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
         mailSender.setJavaMailProperties(props);
 
