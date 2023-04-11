@@ -13,7 +13,7 @@ VALUES
 ('505642'),
 ('850871');
 
-INSERT INTO tb_trailer(id, user_id, movie_id, url, release_date, upload_date, edit_date)
+INSERT INTO tb_trailer(id, user, movie, url, release_date, upload_date, edit_date)
 VALUES
 ('6f4aa12a-ec2d-475a-be73-2a2b06de4b34', '5dc17b99-0f31-41a5-98c4-4183f1885085', '315162', 'https://www.youtube.com/watch?v=qtHcEfpYIow', now(), now(), now()),
 ('9de63ace-903a-4344-b52a-c0b802680377', '0a2a51ac-2904-418b-a1b1-3999695c28ec', '315162', 'https://www.youtube.com/watch?v=QAcn7cWm_hc', now(), now(), now()),

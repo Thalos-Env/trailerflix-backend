@@ -12,7 +12,7 @@ public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 				popularity, posterPath, releaseDate, title, voteAverage, voteCount);
 	}
 
-	public MovieExternalApiBuilder withAdult(int id) {
+	public MovieExternalApiBuilder withId(int id) {
 		this.id = id;
 		return this;
 	}
