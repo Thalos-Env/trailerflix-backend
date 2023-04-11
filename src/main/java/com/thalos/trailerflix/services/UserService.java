@@ -64,7 +64,7 @@ public class UserService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setSubject("Link da sua senha.");
+        helper.setSubject("Confirmação de e-mail.");
         helper.setFrom("murilo.bot100@gmail.com");
         helper.setTo(userInsertDTO.getEmail());
 
@@ -72,7 +72,7 @@ public class UserService {
         helper.setText("<p>Olá,</p>"
                         + "<p>Você cadastrou em nosso site.</p>"
                         + "<br>"
-                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"/confirm-account/" + user.getId() + "\">Confirmar e-mail</a></p>"
+                        + "<p>Para confirmar seu e-mail clique no link: <a href=\"http://localhost:3000/confirm-account/" + user.getCheckerCode() + "\">Confirmar e-mail</a></p>"
                         + "<br>"
                         + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>"
                 , html);

@@ -37,33 +37,34 @@ public class UserController {
         return ResponseEntity.ok().body(tokenResponse);
     }
 
+    @GetMapping("/resend/confirm-email/{email}")
+    public ResponseEntity<?> resendConfirmEmail(@PathVariable("email") String email) throws MessagingException {
+        userService.resendConfirmEmail(email);
+        return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
+    }
+
+    @GetMapping("/email/reset-password/{email}")
+    public ResponseEntity<?> reset(@PathVariable("email") String email) throws MessagingException {
+        userService.sendEmailResetPassword(email);
+        return ResponseEntity.ok().body("Email enviado neste endereço de email.");
+    }
+
     @PostMapping("/cadastro")
     public ResponseEntity<UserDTO> signUp(@Valid @RequestBody UserInsertDTO userInsertDTO) throws MessagingException {
         UserDTO userDTO = userService.createUser(userInsertDTO);
         return ResponseEntity.ok().body(userDTO);
     }
 
-    @PostMapping("/confirm-email/{email}")
-    public ResponseEntity<?> confirmEmail(@RequestParam("email") String email) {
-        userService.confirmEmail(email);
+    @PostMapping("/confirm-email/{checkerCode}")
+    public ResponseEntity<?> confirmEmail(@RequestParam("checkerCode") String checkerCode) {
+        userService.confirmEmail(checkerCode);
         return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
     }
 
-    @PostMapping("/resend/confirm-email/{email}")
-    public ResponseEntity<?> resendConfirmEmail(@RequestParam("email") String email) throws MessagingException {
-        userService.resendConfirmEmail(email);
-        return ResponseEntity.ok().body("E-mail confirmado com sucesso.");
-    }
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
         userService.resetPassword(resetPasswordDTO);
         return ResponseEntity.ok().body("Senha alterada com sucesso.");
-    }
-
-    @PostMapping("/email/reset-password")
-    public ResponseEntity<?> reset(@RequestBody String email) throws MessagingException {
-        userService.sendEmailResetPassword(email);
-        return ResponseEntity.ok().body("Email enviado neste endereço de email.");
     }
 }
