@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class MovieExternalApiDTO {
 
-	protected int id;
+	protected Long id;
 	protected boolean adult;
 	protected String backdropPath;
 	protected List<GenreExternalApiDTO> genres;
