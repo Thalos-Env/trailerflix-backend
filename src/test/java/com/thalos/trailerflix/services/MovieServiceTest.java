@@ -77,4 +77,14 @@ public class MovieServiceTest {
 
 		assertEquals("Filme não encontrado.", exception.getMessage());
 	}
+	
+	@Test
+	@DisplayName("Should create movie")
+	public void shouldCreateMovie() {
+		when(movieRepository.save(movieBuilder)).thenReturn(movieBuilder);
+		
+		Movie result = movieService.saveMovie(movieBuilder);
+		
+		assertThat(movieBuilder).isSameAs(result);
+	}
 }
