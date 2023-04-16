@@ -1,6 +1,5 @@
 package com.thalos.trailerflix.services;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,9 +20,7 @@ public class TrailerService {
 	private final TrailerRepository trailerRepository;
 	
 	@Transactional
-	public Trailer createTrailer(Trailer newTrailer) {
-		newTrailer.setEditDate(LocalDate.now());
-		
+	public Trailer createTrailer(Trailer newTrailer) {		
 		Trailer trailerSaved = trailerRepository.save(newTrailer);
 		
 		return trailerSaved;
