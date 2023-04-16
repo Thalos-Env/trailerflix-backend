@@ -1,8 +1,6 @@
 package com.thalos.trailerflix.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
@@ -12,9 +10,14 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity(name = "tb_movie")
 public class Movie {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 	
-	private String trailersId;
+	public Movie(Long id, String trailersId) {
+		this.id = id;
+		this.trailersId = trailersId;
+	}
+
+	@Id
+	protected Long id;
+	
+	protected String trailersId;
 }
