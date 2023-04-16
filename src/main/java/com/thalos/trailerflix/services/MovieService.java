@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
@@ -44,5 +45,10 @@ public class MovieService {
 		Optional<Movie> movieFound = movieRepository.findById(movieId);
 
 		return movieFound.orElseThrow(() -> new ObjectNotFoundException("Filme não encontrado."));
+	}
+	
+	@Transactional
+	public Movie saveMovie(Movie newMovie) {
+		return movieRepository.save(newMovie);
 	}
 }
