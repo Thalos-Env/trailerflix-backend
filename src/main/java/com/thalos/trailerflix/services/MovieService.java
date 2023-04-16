@@ -24,14 +24,19 @@ public class MovieService {
 	private final WebClient webClient;
 
 	public MovieExternalApiDTO searchMovieFromExternalApi(Long id) {
-		Mono<MovieExternalApiDTO> monoMovie = this.webClient.method(HttpMethod.GET)
-				.uri(uriBuilder -> uriBuilder.path(id + "").queryParam("language", "pt-BR")
-						.queryParam("api_key", "3768983f3d84bc0b2dc209e8dcc24bd6").build())
-				.retrieve().bodyToMono(MovieExternalApiDTO.class).onErrorResume(error -> Mono.empty());
-
+		Mono<MovieExternalApiDTO> monoMovie = 
+				this.webClient
+					.method(HttpMethod.GET)
+					.uri(uriBuilder -> uriBuilder.path(id + "")
+						.queryParam("language", "pt-BR")
+						.queryParam("api_key", "3768983f3d84bc0b2dc209e8dcc24bd6")
+						.build())
+					.retrieve().bodyToMono(MovieExternalApiDTO.class)
+					.onErrorResume(error -> Mono.empty());
+		
 		MovieExternalApiDTO movieFound = monoMovie.block();
-
-		if (monoMovie.hasElement().block() == false)
+		
+		if(monoMovie.hasElement().block() == false) 
 			throw new ObjectNotFoundException("Filme não encontrado.");
 
 		return movieFound;

@@ -33,7 +33,7 @@ public class TrailerController {
 	private final UserService userService;
 	
 	public Movie verifyMovieFromExternalApi(Long movieId) {
-		return movieService.createMovie(movieId);
+		return movieService.verifyMovie(movieId);
 	}
 	
 	public User verifyUser(UUID userId) {
