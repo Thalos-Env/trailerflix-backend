@@ -2,39 +2,51 @@ package com.thalos.trailerflix.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
+import com.thalos.trailerflix.repositories.UserRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class MovieServiceTest {
+public class UserServiceTest {
+	
+	@MockBean
+	private UserRepository userRepository;
 
 	@Autowired
-	private MovieService movieService;
-
-	private Long id;
+	private UserService userService;
+	
+	private UUID userId;
 
 	@BeforeEach
 	public void setup() {
-
+		userId = UUID.randomUUID();
 	}
 
 	@Test
 	@DisplayName("Should show ObjectNotFoundException for non-existent id")
 	public void showObjectNotFoundException() {
-		id = (long)1000000000;
+		when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
 		ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
-			movieService.searchMovieFromExternalApi(id);
+			userService.findById(userId);
 		});
 
-		assertEquals("Movie not found.", exception.getMessage());
+		assertEquals("User não encontrado.", exception.getMessage());
 	}
+	
+	
 }

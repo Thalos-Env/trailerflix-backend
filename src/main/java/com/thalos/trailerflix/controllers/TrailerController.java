@@ -1,10 +1,10 @@
 package com.thalos.trailerflix.controllers;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +31,7 @@ public class TrailerController {
 	private final TrailerService trailerService;
 	private final MovieService movieService;
 	
-	public Movie verifyMovieFromExternalApi(int movieId) {
+	public Movie verifyMovieFromExternalApi(Long movieId) {
 		return movieService.createMovie(movieId);
 	}
 	
@@ -43,7 +43,7 @@ public class TrailerController {
 	}
 	
 	@PostMapping("/{userId}/{movieId}")
-	public ResponseEntity<TrailerConsultDTO> createTrailer(@RequestBody TrailerRegisterDTO trailerRegisterDTO, @PathVariable UUID userId, @PathVariable int movieId) {
+	public ResponseEntity<TrailerConsultDTO> createTrailer(@RequestBody TrailerRegisterDTO trailerRegisterDTO, @PathVariable UUID userId, @PathVariable Long movieId) {
 		Movie movieFound = this.verifyMovieFromExternalApi(movieId);
 		User userFound = this.verifyUser(userId);
 		
@@ -90,4 +90,10 @@ public class TrailerController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}*/
 
+	@GetMapping("/{id}")
+	public ResponseEntity<TrailerConsultDTO> findTrailerById(@PathVariable UUID id) {
+		TrailerConsultDTO result = TrailerMapper.fromEntity(trailerService.findTrailerById(id));
+		
+		return new ResponseEntity<TrailerConsultDTO>(result, HttpStatus.OK);
+	}
 }

@@ -21,7 +21,7 @@ public class MovieService {
 	private final MovieRepository movieRepository;
 	private final WebClient webClient;
 
-	public MovieExternalApiDTO searchMovieFromExternalApi(Integer id) {
+	public MovieExternalApiDTO searchMovieFromExternalApi(Long id) {
 		Mono<MovieExternalApiDTO> monoMovie = 
 				this.webClient
 					.method(HttpMethod.GET)
@@ -41,7 +41,7 @@ public class MovieService {
 	}
 
 	@Transactional
-	public Movie createMovie(int movieId) {
+	public Movie createMovie(Long movieId) {
 		this.searchMovieFromExternalApi(movieId);
 		
 		Movie newMovie = new Movie();

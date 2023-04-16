@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -17,30 +17,30 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity(name = "tb_trailer")
 public class Trailer {
-
-	public Trailer(UUID id, User userId, Movie movieId, String url, LocalDate releaseDate, LocalDate uploadDate) {
+	
+	public Trailer(UUID id, User user, Movie movie, String url, LocalDate releaseDate, LocalDate uploadDate, LocalDate editDate) {
 		this.id = id;
-		this.userId = userId;
-		this.movieId = movieId;
+		this.user = user;
+		this.movie = movie;
 		this.url = url;
 		this.releaseDate = releaseDate;
 		this.uploadDate = uploadDate;
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@Type(type = "org.hibernate.type.UUIDCharType")
+	protected UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User userId;
+	@JoinColumn(name = "user")
+	protected User user;
 
 	@ManyToOne
-	@JoinColumn(name = "movie_id")
-	private Movie movieId;
+	@JoinColumn(name = "movie")
+	protected Movie movie;
 
-	private String url;
-	private LocalDate releaseDate;
-	private LocalDate uploadDate;
-	private LocalDate editDate;
+	protected String url;
+	protected LocalDate releaseDate;
+	protected LocalDate uploadDate;
+	protected LocalDate editDate;
 }
