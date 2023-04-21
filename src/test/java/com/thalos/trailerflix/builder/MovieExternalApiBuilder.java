@@ -8,8 +8,8 @@ import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
 public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 
 	public MovieExternalApiDTO build() {
-		return new MovieExternalApiDTO(id, adult, backdropPath, genres, originalLanguage, originalTitle, overview,
-				popularity, posterPath, releaseDate, title, voteAverage, voteCount);
+		return new MovieExternalApiDTO(id, adult, backdrop_path, genres, original_language, original_title, overview,
+				popularity, poster_path, release_date, title, vote_average, vote_count);
 	}
 
 	public MovieExternalApiBuilder withId(Long id) {
@@ -23,7 +23,7 @@ public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 	}
 
 	public MovieExternalApiBuilder withBackdropPath(String backdropPath) {
-		this.backdropPath = backdropPath;
+		this.backdrop_path = backdropPath;
 		return this;
 	}
 
@@ -33,12 +33,12 @@ public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 	}
 
 	public MovieExternalApiBuilder withOriginalLanguage(String originalLanguage) {
-		this.originalLanguage = originalLanguage;
+		this.original_language = originalLanguage;
 		return this;
 	}
 
 	public MovieExternalApiBuilder withOriginalTitle(String originalTitle) {
-		this.originalTitle = originalTitle;
+		this.original_title = originalTitle;
 		return this;
 	}
 
@@ -53,12 +53,12 @@ public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 	}
 
 	public MovieExternalApiBuilder withPosterPath(String posterPath) {
-		this.posterPath = posterPath;
+		this.poster_path = posterPath;
 		return this;
 	}
 
 	public MovieExternalApiBuilder withReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
+		this.release_date = releaseDate;
 		return this;
 	}
 
@@ -68,12 +68,12 @@ public class MovieExternalApiBuilder extends MovieExternalApiDTO {
 	}
 
 	public MovieExternalApiBuilder withVoteAverage(Double voteAverage) {
-		this.voteAverage = voteAverage;
+		this.vote_average = voteAverage;
 		return this;
 	}
 
 	public MovieExternalApiBuilder withVoteCount(int voteCount) {
-		this.voteCount = voteCount;
+		this.vote_count = voteCount;
 		return this;
 	}
 }
