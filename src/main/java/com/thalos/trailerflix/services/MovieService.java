@@ -27,7 +27,7 @@ public class MovieService {
 		Mono<MovieExternalApiDTO> monoMovie = 
 				this.webClient
 					.method(HttpMethod.GET)
-					.uri(uriBuilder -> uriBuilder.path(id + "")
+					.uri(uriBuilder -> uriBuilder.path(id.toString())
 						.queryParam("language", "pt-BR")
 						.queryParam("api_key", "3768983f3d84bc0b2dc209e8dcc24bd6")
 						.build())
@@ -52,9 +52,8 @@ public class MovieService {
 	}
 
 	@Transactional
-	public Movie saveMovie(Long movieId, Movie newMovie) {
-		movieRepository.save(newMovie);
-		return newMovie;
+	public Movie saveMovie(Movie newMovie) {
+		return movieRepository.save(newMovie);
 	}
 
 	public Movie findMovieById(Long movieId) {
@@ -69,13 +68,13 @@ public class MovieService {
 		if (this.existsMovie(movieId)) {
 			Movie movieFound = findMovieById(movieId);
 			resultMovie = movieFound;
-			
+
 		} else {
 			this.searchMovieFromExternalApi(movieId);
 
 			Movie newMovie = new Movie();
 			newMovie.setId(movieId);
-			resultMovie = this.saveMovie(movieId, newMovie);
+			resultMovie = this.saveMovie(newMovie);
 		}
 
 		return resultMovie;
