@@ -42,13 +42,10 @@ public class MovieService {
 		return movieFound;
 	}
 
-	public boolean existsMovie(Long movieId) {
-		Movie movieFound = movieRepository.findById(movieId).get();
-
-		if (movieFound == null)
-			return false;
-
-		return true;
+	public Movie existsMovie(Long movieId) {
+		Optional<Movie> movieFound = movieRepository.findById(movieId);
+		
+		return movieFound.orElse(null);
 	}
 
 	@Transactional
@@ -65,7 +62,7 @@ public class MovieService {
 	public Movie verifyMovie(Long movieId) {
 		Movie resultMovie;
 
-		if (this.existsMovie(movieId)) {
+		if (this.existsMovie(movieId) !=  null) {
 			Movie movieFound = findMovieById(movieId);
 			resultMovie = movieFound;
 

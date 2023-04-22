@@ -25,6 +25,7 @@ public class Trailer {
 		this.url = url;
 		this.releaseDate = releaseDate;
 		this.uploadDate = uploadDate;
+		this.editDate = editDate;
 	}
 	
 	@Id

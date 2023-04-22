@@ -40,10 +40,10 @@ public class TrailerController {
 		return userService.findById(userId);
 	}
 	
-	@PostMapping("/{userId}/{movieId}")
-	public ResponseEntity<TrailerConsultDTO> createTrailer(@RequestBody TrailerRegisterDTO trailerRegisterDTO, @PathVariable UUID userId, @PathVariable Long movieId) {
+	@PostMapping("/{movieId}")
+	public ResponseEntity<TrailerConsultDTO> createTrailer(@RequestBody TrailerRegisterDTO trailerRegisterDTO, @PathVariable Long movieId) {
 		Movie movieFound = this.verifyMovieFromExternalApi(movieId);
-		User userFound = this.verifyUser(userId);
+		User userFound = this.verifyUser(trailerRegisterDTO.getUser());
 		
 		Trailer newTrailer = trailerService.createTrailer(TrailerMapper.fromDTO(trailerRegisterDTO, userFound, movieFound));
 		

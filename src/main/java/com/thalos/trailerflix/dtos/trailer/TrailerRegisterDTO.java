@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.thalos.trailerflix.entities.Movie;
-import com.thalos.trailerflix.entities.User;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class TrailerRegisterDTO {
 	
 	private UUID id;
-	private User user;
+	private UUID user;
 	private Movie movie;
 	private String url;
 	private LocalDate releaseDate;
