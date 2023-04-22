@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,7 +31,8 @@ public class Trailer {
 	}
 	
 	@Id
-	@Type(type = "org.hibernate.type.UUIDCharType")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type = "uuid-char")
 	protected UUID id;
 
 	@ManyToOne
