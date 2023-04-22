@@ -18,11 +18,11 @@ import lombok.RequiredArgsConstructor;
 public class TrailerService {
 
 	private final TrailerRepository trailerRepository;
-	
+
 	@Transactional
-	public Trailer createTrailer(Trailer newTrailer) {		
+	public Trailer createTrailer(Trailer newTrailer) {
 		Trailer trailerSaved = trailerRepository.save(newTrailer);
-		
+
 		return trailerSaved;
 	}
 
