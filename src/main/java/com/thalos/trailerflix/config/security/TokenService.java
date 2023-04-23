@@ -4,6 +4,7 @@ import com.thalos.trailerflix.entities.User;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -32,6 +33,10 @@ public class TokenService {
         if (!passwordEncoder.matches(senha, user.getPassword())) {
             throw new ObjectNotFoundException("Senha inválida.");
         }
+        if (!user.getEnable()) {
+            throw new DataIntegrityViolationException("Por favor, confirme o seu e-mail.");
+        }
+
         String scope = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));

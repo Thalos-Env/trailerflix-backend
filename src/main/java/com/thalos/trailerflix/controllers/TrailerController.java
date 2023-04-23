@@ -25,7 +25,7 @@ public class TrailerController {
 	@GetMapping("/{id}")
 	public ResponseEntity<TrailerConsultDTO> findTrailerById(@PathVariable UUID id) {
 		TrailerConsultDTO result = TrailerMapper.fromEntity(trailerService.findTrailerById(id));
-		
+
 		return new ResponseEntity<TrailerConsultDTO>(result, HttpStatus.OK);
 	}
 }
