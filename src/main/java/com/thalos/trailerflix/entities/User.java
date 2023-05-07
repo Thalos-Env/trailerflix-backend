@@ -35,16 +35,16 @@ public class User implements UserDetails, Serializable {
 	
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+    protected UUID id;
     
-    private String trailersId;
-    private String profile;
-    private String name;
+    protected String trailersId;
+    protected String profile;
+    protected String name;
     
     @Email
-    private String email;
-    private String password;
-    private LocalDate registrationDate;
+    protected String email;
+    protected String password;
+    protected LocalDate registrationDate;
 
     @PrePersist
     public void prePersist() {

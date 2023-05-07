@@ -37,7 +37,7 @@ public class MovieServiceTest {
 	@BeforeEach
 	public void setup() {
 		id = (long)100;
-		setupMovieBuilder();
+		this.setupMovieBuilder();
 	}
 	
 	public void setupMovieBuilder() {
