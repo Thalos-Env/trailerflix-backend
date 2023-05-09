@@ -2,6 +2,7 @@ package com.thalos.trailerflix.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.thalos.trailerflix.builder.MovieBuilder;
+import com.thalos.trailerflix.builder.MovieExternalApiBuilder;
+import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
 import com.thalos.trailerflix.entities.Movie;
 import com.thalos.trailerflix.exceptions.ObjectNotFoundException;
 import com.thalos.trailerflix.repositories.MovieRepository;
@@ -31,6 +34,9 @@ public class MovieServiceTest {
 	@MockBean
 	private MovieRepository movieRepository;
 	
+	@MockBean
+	private MovieExternalApi movieExternalApi;
+	
 	private MovieBuilder movieBuilder;
 	private Long id;
 
@@ -42,18 +48,6 @@ public class MovieServiceTest {
 	
 	public void setupMovieBuilder() {
 		movieBuilder = new MovieBuilder().withId(id);
-	}
-
-	@Test
-	@DisplayName("Should show ObjectNotFoundException for non-existent id")
-	public void showObjectNotFoundException() {
-		id = (long)1000000000;
-
-		ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
-			movieService.searchMovieFromExternalApi(id);
-		});
-
-		assertEquals("Filme não encontrado.", exception.getMessage());
 	}
 	
 	@Test
@@ -85,6 +79,54 @@ public class MovieServiceTest {
 		
 		Movie result = movieService.saveMovie(movieBuilder);
 		
+		assertThat(movieBuilder).isSameAs(result);
+	}
+	
+	@Test
+	@DisplayName("Should verify if movie exists in database")
+	public void shouldVerifyIfMovieExistsInDatabase() {
+		when(movieRepository.findById(id)).thenReturn(Optional.of(movieBuilder));
+
+		Movie result = movieService.existsMovie(id);
+
+		assertThat(movieBuilder).isSameAs(result);
+	}
+	
+	@Test
+	@DisplayName("Should return null when not found movie in database")
+	public void showReturnNullWhenNotFoundMovieInDatabase() {
+		when(movieRepository.findById(id)).thenReturn(Optional.of(movieBuilder));
+
+		Movie result = movieService.existsMovie((long) 200);
+
+		assertNull(result);
+	}
+	
+	@Test
+	@DisplayName("Should verify if movie will not be saved")
+	public void shouldVerifyIfMovieWillNotBeSaved() {
+		when(movieRepository.findById(id)).thenReturn(Optional.of(movieBuilder));
+
+		Movie result = movieService.verifyMovie(id);
+
+		assertThat(movieBuilder).isSameAs(result);
+	}
+	
+	@Test 
+	@DisplayName("Should verify if movie will be saved")
+	public void shouldVerifyIfMovieWillBeSaved() {
+		MovieExternalApiDTO movieAtExternalApi = new MovieExternalApiBuilder();
+		movieAtExternalApi.setId(id);
+		
+		Movie movie = new Movie();
+		movie.setId(movieAtExternalApi.getId());
+		
+		when(movieRepository.findById(id)).thenReturn(Optional.empty());
+		when(movieExternalApi.searchMovieFromExternalApi(id)).thenReturn(movieAtExternalApi);
+		when(movieRepository.save(movie)).thenReturn(movieBuilder);
+
+		Movie result = movieService.verifyMovie(id);
+
 		assertThat(movieBuilder).isSameAs(result);
 	}
 }
