@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thalos.trailerflix.dtos.external.MovieExternalApiDTO;
-import com.thalos.trailerflix.services.MovieService;
+import com.thalos.trailerflix.services.MovieExternalApi;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/movies")
 @RequiredArgsConstructor
 public class MovieController {
-	private final MovieService movieService;
+	private final MovieExternalApi movieExternalApi;
 
-	@GetMapping("/{id}")
+	@GetMapping("/external/{id}")
 	public ResponseEntity<MovieExternalApiDTO> searchMovieFromExternalApi(@PathVariable Long id) {
-		MovieExternalApiDTO result = movieService.searchMovieFromExternalApi(id);
+		MovieExternalApiDTO result = movieExternalApi.searchMovieFromExternalApi(id);
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

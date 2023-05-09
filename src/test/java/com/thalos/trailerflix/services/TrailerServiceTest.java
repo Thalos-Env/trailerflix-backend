@@ -71,4 +71,14 @@ public class TrailerServiceTest {
 
 		assertThat(trailerBuilder).isSameAs(result);
 	}
+	
+	@Test
+	@DisplayName("Should create trailer")
+	public void shouldCreateTrailer() {
+		when(trailerRepository.save(trailerBuilder)).thenReturn(trailerBuilder);
+
+		Trailer result = trailerService.createTrailer(trailerBuilder);
+
+		assertThat(trailerBuilder).isSameAs(result);
+	}
 }

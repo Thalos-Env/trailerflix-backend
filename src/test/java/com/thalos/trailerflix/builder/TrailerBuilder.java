@@ -42,4 +42,9 @@ public class TrailerBuilder extends Trailer {
 		this.uploadDate = uploadDate;
 		return this;
 	}
+	
+	public TrailerBuilder withEditDate(LocalDate editDate) {
+		this.editDate = editDate;
+		return this;
+	}
 }

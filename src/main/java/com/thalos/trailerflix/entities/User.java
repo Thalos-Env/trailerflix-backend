@@ -23,16 +23,28 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity(name = "tb_user")
 public class User implements UserDetails, Serializable {
+	private static final long serialVersionUID = 1L;
+
+	public User(UUID id, String profile, String name, String email, LocalDate registrationDate) {
+		this.id = id;
+		this.profile = profile;
+		this.name = name;
+		this.email = email;
+		this.registrationDate = registrationDate;
+	}
+	
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
-    private String trailersId;
-    private String profile;
-    private String name;
+    protected UUID id;
+    
+    protected String trailersId;
+    protected String profile;
+    protected String name;
+    
     @Email
-    private String email;
-    private String password;
-    private LocalDate registrationDate;
+    protected String email;
+    protected String password;
+    protected LocalDate registrationDate;
 
     @PrePersist
     public void prePersist() {

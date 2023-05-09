@@ -3,9 +3,6 @@ package com.thalos.trailerflix.dtos.trailer;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import com.thalos.trailerflix.entities.Movie;
-import com.thalos.trailerflix.entities.User;
-
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -13,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TrailerRegisterDTO {
 	
-	private UUID id;
-	private User user;
-	private Movie movie;
+	public TrailerRegisterDTO(UUID user, String url, LocalDate releaseDate) {
+		this.user = user;
+		this.url = url;
+		this.releaseDate = releaseDate;
+	}
+	
+	private UUID user;
 	private String url;
 	private LocalDate releaseDate;
-	private LocalDate uploadDate;
-	private LocalDate editDate;
 }
