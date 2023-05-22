@@ -46,9 +46,8 @@ public class TrailerController {
 		User userFound = this.verifyUser(trailerRegisterDTO.getUser());
 		
 		Trailer convertedTrailer = TrailerMapper.fromDTO(trailerRegisterDTO, userFound, movieFound);
-		Trailer newTrailer = trailerService.createTrailer(convertedTrailer);
-		
-		TrailerConsultDTO result = TrailerMapper.fromEntity(newTrailer);
+		Trailer savedTrailer = trailerService.createTrailer(convertedTrailer);
+		TrailerConsultDTO result = TrailerMapper.fromEntity(savedTrailer);
 
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}

@@ -9,11 +9,16 @@ public class UserBuilder extends User {
 	private static final long serialVersionUID = 1L;
 
 	public User build() {
-		return new User(id, profile, name, email, registrationDate);
+		return new User(id, trailersId, profile, name, email, password, registrationDate);
 	}
 
 	public UserBuilder withId(UUID id) {
 		this.id = id;
+		return this;
+	}
+	
+	public UserBuilder withTrailersId(String trailersId) {
+		this.trailersId = trailersId;
 		return this;
 	}
 
@@ -29,6 +34,11 @@ public class UserBuilder extends User {
 	
 	public UserBuilder withEmail(String email) {
 		this.email = email;
+		return this;
+	}
+	
+	public UserBuilder withPassword(String password) {
+		this.password = password;
 		return this;
 	}
 	

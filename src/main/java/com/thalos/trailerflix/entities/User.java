@@ -17,19 +17,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Entity(name = "tb_user")
 public class User implements UserDetails, Serializable {
 	private static final long serialVersionUID = 1L;
-
-	public User(UUID id, String profile, String name, String email, LocalDate registrationDate) {
+	
+	public User(UUID id, String trailersId, String profile, String name, @Email String email, String password, LocalDate registrationDate) {
 		this.id = id;
+		this.trailersId = trailersId;
 		this.profile = profile;
 		this.name = name;
 		this.email = email;
+		this.password = password;
 		this.registrationDate = registrationDate;
 	}
 	
