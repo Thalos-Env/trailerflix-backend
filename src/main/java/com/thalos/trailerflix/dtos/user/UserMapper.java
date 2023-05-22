@@ -3,7 +3,6 @@ package com.thalos.trailerflix.dtos.user;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,8 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class UserMapper {    
 	public static User fromDTO(UserRegisterDTO dto) {	
-		//TODO: uuid should be genetared for db
-		return new User(UUID.randomUUID(), null, dto.getProfile(), dto.getName(), dto.getEmail(), new BCryptPasswordEncoder().encode(dto.getPassword()), LocalDate.now());
+		return new User(null, null, dto.getProfile(), dto.getName(), dto.getEmail(), new BCryptPasswordEncoder().encode(dto.getPassword()), LocalDate.now());
 	}
 
 	public static UserConsultDTO fromEntity(User user) {

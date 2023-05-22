@@ -33,9 +33,10 @@ public class User implements UserDetails, Serializable {
 		this.registrationDate = registrationDate;
 	}
 	
-    @Id
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    protected UUID id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type = "uuid-char")
+	protected UUID id;
     
     protected String trailersId;
     protected String profile;
