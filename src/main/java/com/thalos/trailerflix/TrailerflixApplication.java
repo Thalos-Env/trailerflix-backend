@@ -19,7 +19,7 @@ public class TrailerflixApplication {
 	
 	@Bean
 	public WebClient webClient(WebClient.Builder builder) {
-		return builder.baseUrl("https://api.themoviedb.org/3/movie/")
+		return builder.baseUrl("https://api.themoviedb.org/3/")
 					  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 					  .build();
 	}

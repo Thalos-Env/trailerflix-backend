@@ -24,4 +24,11 @@ public class MovieController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	@GetMapping("/external/list/{idList}")
+	public ResponseEntity<Object> getListFromExternalApi(@PathVariable Long idList) {
+		Object result = movieExternalApi.getListFromExternalApi(idList);
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 }
